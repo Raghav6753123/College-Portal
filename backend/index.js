@@ -33,11 +33,35 @@ const parseAllowedOrigins = () => {
 
 const allowedOrigins = parseAllowedOrigins();
 
+const normalizeOrigin = (value) => String(value || "").trim().replace(/\/+$/, "");
+
+const isOriginAllowed = (origin) => {
+  const candidate = normalizeOrigin(origin);
+  if (!candidate) return true;
+  if (allowedOrigins.length === 0) return true;
+
+  for (const entry of allowedOrigins) {
+    const rule = normalizeOrigin(entry);
+    if (!rule) continue;
+
+    // Support simple wildcard rules like: https://*.vercel.app
+    if (rule.includes("*")) {
+      const escaped = rule.replace(/[.+?^${}()|[\]\\]/g, "\\$&").replace(/\*/g, ".*");
+      const re = new RegExp(`^${escaped}$`);
+      if (re.test(candidate)) return true;
+      continue;
+    }
+
+    if (rule === candidate) return true;
+  }
+
+  return false;
+};
+
 const corsOrigin = (origin, callback) => {
   // Allow non-browser tools (no Origin header)
   if (!origin) return callback(null, true);
-  if (allowedOrigins.length === 0) return callback(null, true);
-  if (allowedOrigins.includes(origin)) return callback(null, true);
+  if (isOriginAllowed(origin)) return callback(null, true);
   return callback(new Error(`CORS blocked for origin: ${origin}`));
 };
 
