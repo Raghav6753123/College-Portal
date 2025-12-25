@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const ApiResponse = require("../../utils/ApiResponse");
 const jwt = require("jsonwebtoken");
 const sendResetMail = require("../../utils/SendMail");
+const { buildAuthCookieOptions } = require("../../utils/cookies");
 
 const loginStudentController = async (req, res) => {
   try {
@@ -25,14 +26,7 @@ const loginStudentController = async (req, res) => {
       expiresIn: "7d",
     });
 
-    const isProd = process.env.NODE_ENV === "production";
-    const cookieOptions = {
-      httpOnly: true,
-      secure: isProd,
-      // If frontend and backend are on different origins in production, cookies need SameSite=None + Secure.
-      sameSite: isProd ? "none" : "lax",
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-    };
+    const cookieOptions = buildAuthCookieOptions(req);
 
     // Store JWT in cookie so frontend doesn't need to manually attach Authorization header.
     res.cookie("token", token, cookieOptions);

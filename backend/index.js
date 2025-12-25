@@ -3,6 +3,9 @@ require("dotenv").config();
 const connectToMongo = require("./Database/db");
 const express = require("express");
 const app = express();
+
+// Required for correct HTTPS detection behind reverse proxies (Render)
+app.set("trust proxy", 1);
 const http = require("http");
 const path = require("path");
 const cookieParser = require("cookie-parser");

@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const ApiResponse = require("../../utils/ApiResponse");
 const jwt = require("jsonwebtoken");
 const sendResetMail = require("../../utils/SendMail");
+const { buildAuthCookieOptions } = require("../../utils/cookies");
 
 const loginAdminController = async (req, res, next) => {
   try {
@@ -25,13 +26,7 @@ const loginAdminController = async (req, res, next) => {
       expiresIn: "7d",
     });
 
-    const isProd = process.env.NODE_ENV === "production";
-    const cookieOptions = {
-      httpOnly: true,
-      secure: isProd,
-      sameSite: isProd ? "none" : "lax",
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-    };
+    const cookieOptions = buildAuthCookieOptions(req);
 
     res.cookie("token", token, cookieOptions);
     res.cookie("user", JSON.stringify({ id: user._id }), { ...cookieOptions, httpOnly: false });
