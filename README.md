@@ -1,158 +1,149 @@
-# College Management System
+# College Management System (MERN)
 
-[![MERN Stack](https://img.shields.io/badge/Stack-MERN-blue)](https://www.mongodb.com/mern-stack)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Node.js](https://img.shields.io/badge/Node.js-v14+-green)](https://nodejs.org)
-[![React](https://img.shields.io/badge/React-v17+-blue)](https://reactjs.org)
-
-A comprehensive MERN stack-based College Management System that helps manage academic activities, student information, faculty details, and administrative tasks. This system streamlines the management of educational institutions by providing a centralized platform for administrators, faculty, and students.
+Full-stack College Management System built with React (CRA) + Node/Express + MongoDB. Includes role-based portals (Admin/Faculty/Student/Alumni), academic management, media uploads, and real-time chat via Socket.io.
 
 ## Features
 
-### Admin Features
+**Admin**
+- Manage branches, subjects, notices, timetables, materials
+- Manage student/faculty/admin profiles and credentials
+- Societies management (society details, coordinator assignment, events/projects/achievements)
 
-- Manage faculty accounts with detailed profiles and emergency contacts
-- Manage student accounts with enrollment numbers and academic details
-- Manage academic branches
-- Handle subject/course management by semester and branch
-- Generate and manage notices for students and faculty
-- Upload and manage timetables by branch and semester
-- Profile management and password updates
+**Faculty**
+- Upload & manage study materials
+- Student finder + profile viewing
+- Timetable/notice access
 
-### Faculty Features
+**Student**
+- View materials, timetable, notices
+- Lost & Found (with image upload)
+- Browse societies + subscribe
 
-- View and manage personal profile with emergency contacts
-- Upload and manage study materials (notes, assignments, syllabus)
-- Filter and organize materials by subject, semester, and type
-- Upload and manage timetables for their branches
-- Search and view student information by enrollment, name, or semester
-- View and respond to notices
-- Update profile and credentials
-- Password management and reset functionality
-
-### Student Features
-
-- View personal profile and academic details
-- Access study materials filtered by subject and type
-- View class timetables with download option
-- Access notices and announcements
-- Update profile information
-- Password management and reset functionality
+**Alumni**
+- Alumni module + Student ↔ Alumni real-time chat (Socket.io)
 
 ## Tech Stack
 
-- Frontend: React.js
-- Backend: Node.js, Express.js
-- Database: MongoDB
-- Authentication: JWT
-
-## Prerequisites
-
-- Node.js
-- MongoDB
-- npm
-
-## Setup Instructions
-
-Sample .env file is added in both backend and frontend, copy that variables and create `.env` in both the folders and then follow below given instructions
-
-1. Clone the repository:
-
-```bash
-git clone <repository-url>
-cd College-Management-System
-```
-
-2. Install dependencies:
-
-```bash
-# Install backend dependencies
-cd backend
-npm install
-
-# Install frontend dependencies
-cd ../frontend
-npm install
-```
-
-3. Create a `.env` file in the backend directory with the following variables:
-
-```
-MONGODB_URI =mongodb://127.0.0.1:27017/College-Management-System
-PORT = 4000
-FRONTEND_API_LINK = http://localhost:3000
-JWT_SECRET = THISISSECRET
-
-NODEMAILER_EMAIL =
-NODEMAILER_PASS =
-```
-
-4. Create a `.env` file in the frontend directory:
-
-```env
-REACT_APP_APILINK = http://localhost:4000/api
-
-REACT_APP_MEDIA_LINK = http://localhost:4000/media
-
-```
-
-5. Start the development servers:
-
-```bash
-# Start backend server (from backend directory)
-npm run dev
-
-# Start frontend server (from frontend directory)
-npm start
-```
-
-## Initial Setup
-
-1. Create an admin account using the seeder:
-
-```bash
-cd backend
-npm run seed
-```
-
-This will create a default admin account with the following credentials:
-
-- Employee ID: 123456
-- Password: admin123
-- Email: admin@gmail.com
+- Frontend: React (Create React App), Redux, Tailwind
+- Backend: Node.js, Express, Mongoose
+- Database: MongoDB Atlas / MongoDB
+- Auth: JWT (cookie-based)
+- Realtime: Socket.io
+- Uploads/Email (optional): Cloudinary, Nodemailer, SendGrid
 
 ## Project Structure
 
 ```
-college-management-system/
-├── backend/
-│   ├── controllers/
-│   │   ├── models/
-│   │   ├── routes/
-│   │   ├── middlewares/
-│   │   ├── utils/
-│   │   └── media/
-│   └── README.md
-├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   ├── pages/
-│   │   ├── context/
-│   │   └── utils/
-│   └── public/
-└── README.md
+College/
+	backend/   (Express API + Socket.io)
+	frontend/  (React app)
 ```
 
-## For Any Doubt Feel Free To Contact Me 🚀
+## Local Development
 
-- [My Website](http://krishjotaniya.netlify.app/)
-- [Linkedin](https://www.linkedin.com/in/krishjotaniya/)
-- [krishjotaniya71@gmail.com](mailto:krishjotaniya71@gmail.com)
+### 1) Install dependencies
 
-## Contributing
+```bash
+cd College/backend
+npm install
 
-Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
+cd ../frontend
+npm install
+```
+
+### 2) Backend environment variables
+
+Create `College/backend/.env` (IMPORTANT: no spaces around `=`):
+
+```dotenv
+MONGODB_URI=mongodb://127.0.0.1:27017/college
+JWT_SECRET=change_me
+FRONTEND_API_LINK=http://localhost:3000
+
+# Optional (emails)
+NODEMAILER_EMAIL=
+NODEMAILER_PASS=
+
+# Optional (Lost & Found image uploads)
+CLOUDINARY_CLOUD_NAME=
+CLOUDINARY_API_KEY=
+CLOUDINARY_API_SECRET=
+
+# Optional (claim notifications)
+SENDGRID_API_KEY=
+SENDGRID_FROM=
+```
+
+Note: The Mongo connection file lives in `backend/Database/db.js` (capital “D”). This matters on Linux (Render).
+
+### 3) Frontend environment variables
+
+Create `College/frontend/.env`:
+
+```dotenv
+REACT_APP_APILINK=http://localhost:4000/api
+REACT_APP_MEDIA_LINK=http://localhost:4000/media
+```
+
+### 4) Run
+
+```bash
+cd College/backend
+npm run dev
+
+cd ../frontend
+npm start
+```
+
+### (Optional) Seed default admin
+
+```bash
+cd College/backend
+npm run seed
+```
+
+Default credentials:
+- Email: `admin@gmail.com`
+- Password: `admin123`
+
+## Deployment
+
+### Backend: Render (recommended)
+
+Socket.io requires a long-running server, so deploy the backend on Render.
+
+Render settings:
+- Root directory: `College/backend`
+- Build command: `npm install`
+- Start command: `npm start`
+
+Render environment variables:
+- `NODE_ENV=production`
+- `MONGODB_URI=...` (MongoDB Atlas URI)
+- `JWT_SECRET=...`
+- `FRONTEND_API_LINK=https://<your-vercel-app>.vercel.app,https://*.vercel.app`
+- Add optional email/cloudinary/sendgrid vars if you use those features
+
+MongoDB Atlas note: allow Render to connect (Atlas → Network Access). For quick testing, you can allow `0.0.0.0/0`.
+
+### Frontend: Vercel
+
+Vercel settings:
+- Root directory: `College/frontend`
+- Build command: `npm run build`
+- Output directory: `build`
+
+Vercel environment variables:
+- `REACT_APP_APILINK=https://<your-render-backend>.onrender.com/api`
+- `REACT_APP_MEDIA_LINK=https://<your-render-backend>.onrender.com/media`
+
+SPA routing is handled via `frontend/vercel.json`.
+
+## Security
+
+- Do not commit `.env` files.
+- Rotate any credentials if they were ever shared publicly.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT (see [LICENSE](LICENSE)).
