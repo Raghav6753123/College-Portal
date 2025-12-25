@@ -108,7 +108,7 @@ const StudentFinder = () => {
         <form onSubmit={searchStudents} className="flex items-center">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 w-[90%] mx-auto">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-slate-200 mb-1">
                 Enrollment Number
               </label>
               <input
@@ -116,13 +116,13 @@ const StudentFinder = () => {
                 name="enrollmentNo"
                 value={searchParams.enrollmentNo}
                 onChange={handleInputChange}
-                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-2 border-2 border-dark-600 rounded-md bg-dark-700 text-slate-200 focus:outline-none focus:ring-2 focus:ring-primary-500"
                 placeholder="Enter enrollment number"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-slate-200 mb-1">
                 Name
               </label>
               <input
@@ -130,20 +130,20 @@ const StudentFinder = () => {
                 name="name"
                 value={searchParams.name}
                 onChange={handleInputChange}
-                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-2 border-2 border-dark-600 rounded-md bg-dark-700 text-slate-200 focus:outline-none focus:ring-2 focus:ring-primary-500"
                 placeholder="Enter student name"
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-slate-200 mb-1">
                 Semester
               </label>
               <select
                 name="semester"
                 value={searchParams.semester}
                 onChange={handleInputChange}
-                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-2 border-2 border-dark-600 rounded-md bg-dark-700 text-slate-200 focus:outline-none focus:ring-2 focus:ring-primary-500"
               >
                 <option value="">Select Semester</option>
                 {[1, 2, 3, 4, 5, 6, 7, 8].map((sem) => (
@@ -155,14 +155,14 @@ const StudentFinder = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-slate-200 mb-1">
                 Branch
               </label>
               <select
                 name="branch"
                 value={searchParams.branch}
                 onChange={handleInputChange}
-                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-2 border-2 border-dark-600 rounded-md bg-dark-700 text-slate-200 focus:outline-none focus:ring-2 focus:ring-primary-500"
               >
                 <option value="">Select Branch</option>
                 {branches?.map((branch) => (
@@ -186,7 +186,7 @@ const StudentFinder = () => {
         </form>
 
         {!hasSearched && (
-          <div className="text-center mt-8 text-gray-600 flex flex-col items-center justify-center my-10 bg-white p-10 rounded-lg mx-auto w-[40%]">
+          <div className="text-center mt-8 text-slate-200 flex flex-col items-center justify-center my-10 glass-effect p-10 rounded-3xl mx-auto w-[40%]">
             <img
               src="/assets/filter.svg"
               alt="Select filters"
@@ -202,62 +202,64 @@ const StudentFinder = () => {
 
         {students.length > 0 && (
           <div className="mt-8">
-            <h2 className="text-xl font-semibold mb-4">Search Results</h2>
+            <h2 className="text-xl font-semibold mb-4 text-primary-300">Search Results</h2>
             <div className="overflow-x-auto">
-              <table className="min-w-full bg-white border border-gray-300">
+              <div className="bg-dark-800 rounded-2xl shadow-md overflow-hidden border border-dark-700">
+              <table className="min-w-full">
                 <thead>
-                  <tr className="bg-gray-100">
-                    <th className="px-6 py-3 border-b text-left">Profile</th>
-                    <th className="px-6 py-3 border-b text-left">Name</th>
-                    <th className="px-6 py-3 border-b text-left">
+                  <tr className="bg-primary-500 text-white">
+                    <th className="px-6 py-4 text-left font-semibold">Profile</th>
+                    <th className="px-6 py-4 text-left font-semibold">Name</th>
+                    <th className="px-6 py-4 text-left font-semibold">
                       Enrollment No
                     </th>
-                    <th className="px-6 py-3 border-b text-left">Semester</th>
-                    <th className="px-6 py-3 border-b text-left">Branch</th>
-                    <th className="px-6 py-3 border-b text-left">Email</th>
+                    <th className="px-6 py-4 text-left font-semibold">Semester</th>
+                    <th className="px-6 py-4 text-left font-semibold">Branch</th>
+                    <th className="px-6 py-4 text-left font-semibold">Email</th>
                   </tr>
                 </thead>
                 <tbody>
                   {students.map((student) => (
                     <tr
                       key={student._id}
-                      className="hover:bg-gray-50 cursor-pointer"
+                      className="hover:bg-primary-50 cursor-pointer border-b"
                       onClick={() => handleRowClick(student)}
                     >
-                      <td className="px-6 py-4 border-b">
+                      <td className="px-6 py-4">
                         <img
                           src={`${process.env.REACT_APP_MEDIA_LINK}/${student.profile}`}
                           alt={`${student.firstName}'s profile`}
-                          className="w-12 h-12 object-cover rounded-full"
+                          className="w-12 h-12 object-cover rounded-full ring-2 ring-primary-400"
                           onError={(e) => {
                             e.target.src =
                               "https://images.unsplash.com/photo-1744315900478-fa44dc6a4e89?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
                           }}
                         />
                       </td>
-                      <td className="px-6 py-4 border-b">
+                      <td className="px-6 py-4">
                         {student.firstName} {student.middleName}{" "}
                         {student.lastName}
                       </td>
-                      <td className="px-6 py-4 border-b">
+                      <td className="px-6 py-4">
                         {student.enrollmentNo}
                       </td>
-                      <td className="px-6 py-4 border-b">{student.semester}</td>
-                      <td className="px-6 py-4 border-b">
+                      <td className="px-6 py-4">{student.semester}</td>
+                      <td className="px-6 py-4">
                         {student.branchId?.name}
                       </td>
-                      <td className="px-6 py-4 border-b">{student.email}</td>
+                      <td className="px-6 py-4">{student.email}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
+              </div>
             </div>
           </div>
         )}
 
         {showModal && selectedStudent && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-            <div className="bg-white rounded-lg p-8 max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="bg-dark-800 rounded-lg p-8 max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-dark-700">
               <div className="flex justify-between items-start mb-6">
                 <h2 className="text-2xl font-bold">Student Details</h2>
                 <CustomButton

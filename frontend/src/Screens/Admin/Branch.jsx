@@ -161,14 +161,14 @@ const Branch = () => {
 
       {showAddForm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white rounded-lg w-[500px] max-h-[90vh] overflow-y-auto">
+          <div className="bg-dark-800 rounded-lg w-[500px] max-h-[90vh] overflow-y-auto border border-dark-700">
             <div className="flex justify-between items-center p-6 border-b">
-              <h2 className="text-xl font-semibold">
+              <h2 className="text-xl font-semibold text-slate-100">
                 {isEditing ? "Edit Branch" : "Add New Branch"}
               </h2>
               <button
                 onClick={() => setShowAddForm(false)}
-                className="text-gray-500 hover:text-gray-700"
+                className="text-slate-400 hover:text-slate-200"
               >
                 <IoMdClose className="text-3xl" />
               </button>
@@ -178,7 +178,7 @@ const Branch = () => {
               <div>
                 <label
                   htmlFor="name"
-                  className="block text-sm font-medium text-gray-700 mb-2"
+                  className="block text-sm font-medium text-slate-200 mb-2"
                 >
                   Branch Name
                 </label>
@@ -187,14 +187,14 @@ const Branch = () => {
                   id="name"
                   value={data.name}
                   onChange={(e) => setData({ ...data, name: e.target.value })}
-                  className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 border-2 border-dark-600 rounded-md bg-dark-700 text-slate-200 focus:outline-none focus:ring-2 focus:ring-primary-500"
                 />
               </div>
 
               <div>
                 <label
                   htmlFor="branchId"
-                  className="block text-sm font-medium text-gray-700 mb-2"
+                  className="block text-sm font-medium text-slate-200 mb-2"
                 >
                   Branch ID
                 </label>
@@ -205,7 +205,7 @@ const Branch = () => {
                   onChange={(e) =>
                     setData({ ...data, branchId: e.target.value })
                   }
-                  className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 border-2 border-dark-600 rounded-md bg-dark-700 text-slate-200 focus:outline-none focus:ring-2 focus:ring-primary-500"
                 />
               </div>
 
@@ -226,10 +226,11 @@ const Branch = () => {
       )}
 
       {!dataLoading && (
-        <div className="mt-8 w-full">
-          <table className="text-sm min-w-full bg-white">
+        <div className="mt-8 w-full overflow-x-auto">
+          <div className="bg-dark-800 rounded-2xl shadow-md overflow-hidden border border-dark-700">
+          <table className="text-sm min-w-full">
             <thead>
-              <tr className="bg-blue-500 text-white">
+              <tr className="bg-primary-500 text-white">
                 <th className="py-4 px-6 text-left font-semibold">
                   Branch Name
                 </th>
@@ -243,7 +244,7 @@ const Branch = () => {
             <tbody>
               {branch && branch.length > 0 ? (
                 branch.map((item, index) => (
-                  <tr key={index} className="border-b hover:bg-blue-50">
+                  <tr key={index} className="border-b border-dark-700 hover:bg-dark-700 text-slate-200">
                     <td className="py-4 px-6">{item.name}</td>
                     <td className="py-4 px-6">{item.branchId}</td>
                     <td className="py-4 px-6">
@@ -269,13 +270,14 @@ const Branch = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="4" className="text-center text-base pt-10">
+                  <td colSpan="4" className="text-center text-base pt-10 text-slate-400">
                     No branches found.
                   </td>
                 </tr>
               )}
             </tbody>
           </table>
+          </div>
         </div>
       )}
       <DeleteConfirm

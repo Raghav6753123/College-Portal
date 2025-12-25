@@ -1,23 +1,31 @@
 import React, { useEffect, useState } from "react";
-import Navbar from "../../components/Navbar";
 import { toast, Toaster } from "react-hot-toast";
+import { MdPeople, MdAutoGraph, MdRemoveRedEye } from "react-icons/md";
 import Notice from "../Notice";
 import Student from "./Student";
 import Faculty from "./Faculty";
 import Subjects from "./Subject";
 import Admin from "./Admin";
 import Branch from "./Branch";
+import Alumni from "./Alumni";
+import Societies from "./Societies";
 import { useDispatch } from "react-redux";
 import { setUserData } from "../../redux/actions";
 import axiosWrapper from "../../utils/AxiosWrapper";
 import Profile from "./Profile";
 import Exam from "../Exam";
 import { useNavigate, useLocation } from "react-router-dom";
+import Sidebar from "../../components/Sidebar";
+import TopBar from "../../components/TopBar";
+import StatCard from "../../components/StatCard";
+import AIAssistant from "../../components/AIAssistant";
 
 const MENU_ITEMS = [
   { id: "home", label: "Home", component: Profile },
   { id: "student", label: "Student", component: Student },
   { id: "faculty", label: "Faculty", component: Faculty },
+  { id: "alumni", label: "Alumni", component: Alumni },
+  { id: "societies", label: "Societies", component: Societies },
   { id: "branch", label: "Branch", component: Branch },
   { id: "notice", label: "Notice", component: Notice },
   { id: "exam", label: "Exam", component: Exam },
@@ -71,25 +79,12 @@ const Home = () => {
     setSelectedMenu(validMenu ? validMenu.id : "home");
   }, [location.pathname]);
 
-  const getMenuItemClass = (menuId) => {
-    const isSelected = selectedMenu === menuId;
-    return `
-      text-center px-6 py-3 cursor-pointer
-      font-medium text-sm w-full
-      rounded-md
-      transition-all duration-300 ease-in-out
-      ${
-        isSelected
-          ? "bg-gradient-to-r from-blue-400 to-blue-600 text-white shadow-lg transform -translate-y-1"
-          : "bg-blue-50 text-blue-700 hover:bg-blue-100"
-      }
-    `;
-  };
-
   const renderContent = () => {
     if (isLoading) {
       return (
-        <div className="flex justify-center items-center h-64">Loading...</div>
+        <div className="flex justify-center items-center h-96">
+          <div className="text-gray-400">Loading...</div>
+        </div>
       );
     }
 
@@ -98,7 +93,44 @@ const Home = () => {
     )?.component;
 
     if (selectedMenu === "home" && profileData) {
-      return <Profile profileData={profileData} />;
+      return (
+        <>
+          {/* Stats Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <StatCard
+              title="Total Students"
+              value="12,345"
+              change="+12%"
+              icon={<MdPeople className="text-2xl" />}
+              color="blue"
+            />
+            <StatCard
+              title="Total Faculty"
+              value="456"
+              change="+8.2%"
+              icon={<MdPeople className="text-2xl" />}
+              color="green"
+            />
+            <StatCard
+              title="Active Sessions"
+              value="2,456"
+              change="+15%"
+              icon={<MdAutoGraph className="text-2xl" />}
+              color="purple"
+            />
+            <StatCard
+              title="Total Subjects"
+              value="89"
+              change="-2.4%"
+              icon={<MdRemoveRedEye className="text-2xl" />}
+              color="orange"
+            />
+          </div>
+
+          {/* Profile Content */}
+          <Profile profileData={profileData} />
+        </>
+      );
     }
 
     return MenuItem && <MenuItem />;
@@ -110,25 +142,28 @@ const Home = () => {
   };
 
   return (
-    <>
-      <Navbar />
-      <div className="max-w-7xl mx-auto">
-        <ul className="flex justify-evenly items-center gap-10 w-full mx-auto my-8">
-          {MENU_ITEMS.map((item) => (
-            <li
-              key={item.id}
-              className={getMenuItemClass(item.id)}
-              onClick={() => handleMenuClick(item.id)}
-            >
-              {item.label}
-            </li>
-          ))}
-        </ul>
-
-        {renderContent()}
+    <div className="flex min-h-screen bg-dark-900">
+      <Sidebar
+        menuItems={MENU_ITEMS}
+        selectedMenu={selectedMenu}
+        onMenuSelect={handleMenuClick}
+        userType="Admin"
+      />
+      
+      <div className="flex-1 ml-64">
+        <TopBar 
+          title="Welcome Admin" 
+          subtitle="Here's what's happening with your platform today."
+        />
+        
+        <div className="p-8">
+          {renderContent()}
+        </div>
       </div>
+      
       <Toaster position="bottom-center" />
-    </>
+      <AIAssistant />
+    </div>
   );
 };
 

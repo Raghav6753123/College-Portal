@@ -7,20 +7,22 @@ import { setUserToken } from "../redux/actions";
 import { useDispatch } from "react-redux";
 import CustomButton from "../components/CustomButton";
 import axiosWrapper from "../utils/AxiosWrapper";
+
 const USER_TYPES = {
   STUDENT: "Student",
   FACULTY: "Faculty",
   ADMIN: "Admin",
+  ALUMNI: "Alumni",
 };
 
 const LoginForm = ({ selected, onSubmit, formData, setFormData }) => (
   <form
-    className="w-full p-8 bg-white rounded-2xl shadow-xl border border-gray-200"
+    className="w-full p-8 bg-dark-800 border border-dark-700 rounded-3xl shadow-2xl animate-scale-in"
     onSubmit={onSubmit}
   >
     <div className="mb-6">
       <label
-        className="block text-gray-800 text-sm font-medium mb-2"
+        className="block text-gray-300 text-sm font-semibold mb-3"
         htmlFor="email"
       >
         {selected} Email
@@ -29,14 +31,15 @@ const LoginForm = ({ selected, onSubmit, formData, setFormData }) => (
         type="email"
         id="email"
         required
-        className="w-full px-4 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="w-full px-5 py-3 text-sm bg-dark-700 border-2 border-dark-600 rounded-xl focus:outline-none input-glow text-white placeholder-gray-500 transition-all duration-300 hover:border-dark-500"
         value={formData.email}
         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+        placeholder={`Enter your ${selected.toLowerCase()} email`}
       />
     </div>
     <div className="mb-6">
       <label
-        className="block text-gray-800 text-sm font-medium mb-2"
+        className="block text-gray-300 text-sm font-semibold mb-3"
         htmlFor="password"
       >
         Password
@@ -45,39 +48,40 @@ const LoginForm = ({ selected, onSubmit, formData, setFormData }) => (
         type="password"
         id="password"
         required
-        className="w-full px-4 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="w-full px-5 py-3 text-sm bg-dark-700 border-2 border-dark-600 rounded-xl focus:outline-none input-glow text-white placeholder-gray-500 transition-all duration-300 hover:border-dark-500"
         value={formData.password}
         onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+        placeholder="Enter your password"
       />
     </div>
     <div className="flex items-center justify-between mb-6">
       <Link
-        className="text-sm text-blue-600 hover:underline"
+        className="text-sm text-primary-400 hover:text-accent-400 font-medium transition-colors duration-300 hover:underline"
         to="/forget-password"
       >
         Forgot Password?
       </Link>
     </div>
-    <CustomButton
+    <button
       type="submit"
-      className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 px-4 rounded-lg transition duration-200 flex justify-center items-center gap-2"
+      className="w-full btn-gradient flex justify-center items-center gap-3 group"
     >
-      Login
-      <FiLogIn className="text-lg" />
-    </CustomButton>
+      <span>Login</span>
+      <FiLogIn className="text-xl group-hover:translate-x-1 transition-transform duration-300" />
+    </button>
   </form>
 );
 
 const UserTypeSelector = ({ selected, onSelect }) => (
-  <div className="flex justify-center gap-4 mb-8">
+  <div className="flex justify-center gap-4 mb-10 animate-slide-down">
     {Object.values(USER_TYPES).map((type) => (
       <button
         key={type}
         onClick={() => onSelect(type)}
-        className={`px-5 py-2 text-sm font-medium rounded-full transition duration-200 ${
+        className={`px-8 py-3 text-sm font-semibold rounded-2xl transition-all duration-300 transform ${
           selected === type
-            ? "bg-blue-600 text-white shadow"
-            : "bg-gray-100 text-gray-800 hover:bg-gray-200"
+            ? "bg-gradient-to-r from-primary-500 to-accent-500 text-white shadow-xl scale-110"
+            : "bg-dark-800 border border-dark-700 text-gray-300 hover:scale-105 hover:bg-dark-700"
         }`}
       >
         {type}
@@ -149,11 +153,28 @@ const Login = () => {
   }, [type]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-tr from-gray-100 via-white to-gray-100 flex items-center justify-center px-4">
-      <div className="w-full max-w-2xl lg:w-1/2 px-6 py-12">
-        <h1 className="text-4xl font-bold text-gray-800 text-center mb-6">
-          {selected} Login
-        </h1>
+    <div className="min-h-screen bg-dark-900 relative overflow-hidden flex items-center justify-center px-4">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-primary-500/20 to-accent-500/20"></div>
+      </div>
+      
+      {/* Back to Home Button */}
+      <Link
+        to="/"
+        className="absolute top-6 left-6 px-6 py-2.5 bg-dark-700 hover:bg-dark-600 border border-dark-600 rounded-xl text-sm font-semibold text-white transition-all duration-300 flex items-center gap-2 z-10"
+      >
+        <span>←</span> Back to Home
+      </Link>
+      
+      <div className="relative w-full max-w-2xl lg:w-1/2 px-6 py-12 animate-fade-in">
+        <div className="text-center mb-8">
+          <h1 className="text-5xl font-bold gradient-text mb-3 animate-slide-down">
+            {selected} Login
+          </h1>
+          <p className="text-gray-400 text-lg">Welcome back! Please login to continue</p>
+        </div>
+        
         <UserTypeSelector selected={selected} onSelect={handleUserTypeSelect} />
         <LoginForm
           selected={selected}

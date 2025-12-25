@@ -21,11 +21,25 @@ const loginStudentController = async (req, res) => {
       return ApiResponse.unauthorized("Invalid password").send(res);
     }
 
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
+    const token = jwt.sign({ userId: user._id, role: "student" }, process.env.JWT_SECRET, {
+      expiresIn: "7d",
     });
 
+    const isProd = process.env.NODE_ENV === "production";
+    const cookieOptions = {
+      httpOnly: true,
+      secure: isProd,
+      // If frontend and backend are on different origins in production, cookies need SameSite=None + Secure.
+      sameSite: isProd ? "none" : "lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    };
+
+    // Store JWT in cookie so frontend doesn't need to manually attach Authorization header.
+    res.cookie("token", token, cookieOptions);
+    // Optional: keep user id cookie if you use it elsewhere.
+    res.cookie("user", JSON.stringify({ id: user._id }), { ...cookieOptions, httpOnly: false });
     return ApiResponse.success({ token }, "Login successful").send(res);
+    
   } catch (error) {
     console.error("Login Error: ", error);
     return ApiResponse.internalServerError().send(res);

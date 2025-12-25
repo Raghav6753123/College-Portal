@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import axiosWrapper from "../utils/AxiosWrapper";
 import CustomButton from "../components/CustomButton";
@@ -53,18 +53,23 @@ const UpdatePassword = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-tr from-gray-100 via-white to-gray-100 flex items-center justify-center px-4">
-      <div className="w-full max-w-2xl lg:w-1/2 px-6 py-12">
-        <h1 className="text-4xl font-bold text-gray-800 text-center mb-6">
+    <div className="min-h-screen bg-dark-900 relative overflow-hidden flex items-center justify-center px-4">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-primary-500/20 to-accent-500/20"></div>
+      </div>
+
+      <div className="relative w-full max-w-2xl lg:w-1/2 px-6 py-12 animate-fade-in">
+        <h1 className="text-5xl font-bold gradient-text text-center mb-6 animate-scale-in">
           Update Password
         </h1>
         <form
-          className="w-full p-8 bg-white rounded-2xl shadow-xl border border-gray-200"
+          className="w-full p-8 bg-dark-800 border border-dark-700 rounded-3xl shadow-2xl animate-slide-down"
           onSubmit={onSubmit}
         >
           <div className="mb-6">
             <label
-              className="block text-gray-800 text-sm font-medium mb-2"
+              className="block text-gray-300 text-sm font-semibold mb-3"
               htmlFor="newPassword"
             >
               New Password
@@ -75,13 +80,14 @@ const UpdatePassword = () => {
               onChange={(e) => setNewPassword(e.target.value)}
               value={newPassword}
               required
-              className="w-full px-4 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-5 py-3 text-sm bg-dark-700 border-2 border-dark-600 rounded-xl focus:outline-none input-glow text-white placeholder-gray-500 transition-all duration-300 hover:border-dark-500"
+              placeholder="Enter new password"
             />
           </div>
 
           <div className="mb-6">
             <label
-              className="block text-gray-800 text-sm font-medium mb-2"
+              className="block text-gray-300 text-sm font-semibold mb-3"
               htmlFor="confirmPassword"
             >
               Confirm Password
@@ -92,17 +98,26 @@ const UpdatePassword = () => {
               onChange={(e) => setConfirmPassword(e.target.value)}
               value={confirmPassword}
               required
-              className="w-full px-4 py-2 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-5 py-3 text-sm bg-dark-700 border-2 border-dark-600 rounded-xl focus:outline-none input-glow text-white placeholder-gray-500 transition-all duration-300 hover:border-dark-500"
+              placeholder="Confirm new password"
             />
           </div>
 
-          <CustomButton
+          <button
             type="submit"
             disabled={isLoading}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 px-4 rounded-lg transition duration-200"
+            className="w-full btn-gradient flex justify-center items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLoading ? "Resetting..." : "Reset Password"}
-          </CustomButton>
+          </button>
+          <div className="mt-6 text-center">
+            <Link
+              to="/login"
+              className="text-sm text-primary-400 hover:text-accent-400 font-medium transition-colors duration-300 hover:underline"
+            >
+              ← Back to Login
+            </Link>
+          </div>
         </form>
       </div>
       <Toaster position="bottom-center" />

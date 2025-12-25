@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Navbar from "../../components/Navbar";
 import { toast, Toaster } from "react-hot-toast";
+import { MdPeople, MdBook, MdAssignment, MdEventNote } from "react-icons/md";
 import Notice from "../Notice";
 import { useDispatch } from "react-redux";
 import { setUserData } from "../../redux/actions";
@@ -11,6 +11,10 @@ import StudentFinder from "./StudentFinder";
 import Profile from "./Profile";
 import Marks from "./AddMarks";
 import Exam from "../Exam";
+import Sidebar from "../../components/Sidebar";
+import TopBar from "../../components/TopBar";
+import StatCard from "../../components/StatCard";
+import AIAssistant from "../../components/AIAssistant";
 
 const MENU_ITEMS = [
   { id: "home", label: "Home", component: null },
@@ -23,7 +27,7 @@ const MENU_ITEMS = [
 ];
 
 const Home = () => {
-  const [selectedMenu, setSelectedMenu] = useState("Home");
+  const [selectedMenu, setSelectedMenu] = useState("home");
   const [profileData, setProfileData] = useState(null);
   const dispatch = useDispatch();
   const userToken = localStorage.getItem("userToken");
@@ -47,18 +51,46 @@ const Home = () => {
     fetchUserDetails();
   }, [dispatch, userToken]);
 
-  const getMenuItemClass = (menuId) => {
-    const isSelected = selectedMenu.toLowerCase() === menuId.toLowerCase();
-    return `text-center px-6 py-3 cursor-pointer font-medium text-sm w-full rounded-md ${
-      isSelected
-        ? "bg-blue-500 text-white"
-        : "bg-blue-50 text-blue-700 hover:bg-blue-100"
-    }`;
-  };
-
   const renderContent = () => {
-    if (selectedMenu === "Home" && profileData) {
-      return <Profile profileData={profileData} />;
+    if (selectedMenu === "home" && profileData) {
+      return (
+        <>
+          {/* Stats Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <StatCard
+              title="Total Classes"
+              value="24"
+              change="+5%"
+              icon={<MdBook className="text-2xl" />}
+              color="blue"
+            />
+            <StatCard
+              title="Students"
+              value="145"
+              change="+8.2%"
+              icon={<MdPeople className="text-2xl" />}
+              color="green"
+            />
+            <StatCard
+              title="Assignments"
+              value="12"
+              change="+10%"
+              icon={<MdAssignment className="text-2xl" />}
+              color="purple"
+            />
+            <StatCard
+              title="Upcoming Events"
+              value="5"
+              change="+3%"
+              icon={<MdEventNote className="text-2xl" />}
+              color="orange"
+            />
+          </div>
+
+          {/* Profile Content */}
+          <Profile profileData={profileData} />
+        </>
+      );
     }
 
     const menuItem = MENU_ITEMS.find(
@@ -74,25 +106,28 @@ const Home = () => {
   };
 
   return (
-    <>
-      <Navbar />
-      <div className="max-w-7xl mx-auto">
-        <ul className="flex justify-evenly items-center gap-10 w-full mx-auto my-8">
-          {MENU_ITEMS.map((item) => (
-            <li
-              key={item.id}
-              className={getMenuItemClass(item.id)}
-              onClick={() => setSelectedMenu(item.label)}
-            >
-              {item.label}
-            </li>
-          ))}
-        </ul>
-
-        {renderContent()}
+    <div className="flex min-h-screen bg-dark-900">
+      <Sidebar
+        menuItems={MENU_ITEMS}
+        selectedMenu={selectedMenu}
+        onMenuSelect={(id) => setSelectedMenu(MENU_ITEMS.find(item => item.id === id)?.label || "Home")}
+        userType="Faculty"
+      />
+      
+      <div className="flex-1 ml-64">
+        <TopBar 
+          title="Welcome Faculty" 
+          subtitle="Manage your classes and students"
+        />
+        
+        <div className="p-8">
+          {renderContent()}
+        </div>
       </div>
+      
       <Toaster position="bottom-center" />
-    </>
+      <AIAssistant />
+    </div>
   );
 };
 

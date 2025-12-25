@@ -21,9 +21,20 @@ const loginAdminController = async (req, res, next) => {
       return ApiResponse.unauthorized("Invalid password").send(res);
     }
 
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
+    const token = jwt.sign({ userId: user._id, role: "admin" }, process.env.JWT_SECRET, {
+      expiresIn: "7d",
     });
+
+    const isProd = process.env.NODE_ENV === "production";
+    const cookieOptions = {
+      httpOnly: true,
+      secure: isProd,
+      sameSite: isProd ? "none" : "lax",
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    };
+
+    res.cookie("token", token, cookieOptions);
+    res.cookie("user", JSON.stringify({ id: user._id }), { ...cookieOptions, httpOnly: false });
 
     return ApiResponse.success({ token }, "Login successful").send(res);
   } catch (error) {

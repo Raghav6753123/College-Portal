@@ -10,12 +10,12 @@ const DeleteConfirm = ({ isOpen, onClose, onConfirm, message }) => {
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-lg p-8 max-w-sm w-full mx-4 transform transition-all duration-300 ease-in-out animate-fade-in"
+        className="bg-dark-800 rounded-lg p-8 max-w-sm w-full mx-4 transform transition-all duration-300 ease-in-out animate-fade-in border border-dark-700"
         onClick={(e) => e.stopPropagation()}
       >
-        <h3 className="text-lg font-medium mb-4">Confirm Delete</h3>
+        <h3 className="text-lg font-medium mb-4 text-slate-100">Confirm Delete</h3>
 
-        <p className="text-gray-600 mb-6">
+        <p className="text-slate-300 mb-6">
           {message ||
             "Are you sure you want to delete this item? This action cannot be undone."}
         </p>

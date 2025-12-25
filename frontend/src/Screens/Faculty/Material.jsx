@@ -242,14 +242,14 @@ const Material = () => {
       <div className="w-full mt-4">
         <div className="grid grid-cols-4 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-slate-200 mb-1">
               Filter by Subject
             </label>
             <select
               name="subject"
               value={filters.subject}
               onChange={handleFilterChange}
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 border-2 border-dark-600 rounded-md bg-dark-700 text-slate-200 focus:outline-none focus:ring-2 focus:ring-primary-500"
             >
               <option value="">All Subjects</option>
               {subjects.map((subject) => (
@@ -261,14 +261,14 @@ const Material = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-slate-200 mb-1">
               Filter by Branch
             </label>
             <select
               name="branch"
               value={filters.branch}
               onChange={handleFilterChange}
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 border-2 border-dark-600 rounded-md bg-dark-700 text-slate-200 focus:outline-none focus:ring-2 focus:ring-primary-500"
             >
               <option value="">All Branches</option>
               {branches.map((branch) => (
@@ -280,14 +280,14 @@ const Material = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-slate-200 mb-1">
               Filter by Semester
             </label>
             <select
               name="semester"
               value={filters.semester}
               onChange={handleFilterChange}
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 border-2 border-dark-600 rounded-md bg-dark-700 text-slate-200 focus:outline-none focus:ring-2 focus:ring-primary-500"
             >
               <option value="">All Semesters</option>
               {[1, 2, 3, 4, 5, 6, 7, 8].map((sem) => (
@@ -299,14 +299,14 @@ const Material = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
+            <label className="block text-sm font-medium text-slate-200 mb-1">
               Filter by Type
             </label>
             <select
               name="type"
               value={filters.type}
               onChange={handleFilterChange}
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 border-2 border-dark-600 rounded-md bg-dark-700 text-slate-200 focus:outline-none focus:ring-2 focus:ring-primary-500"
             >
               <option value="">All Types</option>
               <option value="notes">Notes</option>
@@ -321,13 +321,14 @@ const Material = () => {
       {/* Materials Table */}
       <div className="w-full mt-8 overflow-x-auto">
         {materials.length === 0 ? (
-          <div className="text-center py-8 text-gray-500">
+          <div className="text-center py-8 text-slate-400">
             No materials found
           </div>
         ) : (
-          <table className="text-sm min-w-full bg-white">
+          <div className="bg-dark-800 rounded-2xl shadow-md overflow-hidden border border-dark-700">
+          <table className="text-sm min-w-full">
             <thead>
-              <tr className="bg-blue-500 text-white">
+              <tr className="bg-primary-500 text-white">
                 <th className="py-4 px-6 text-left font-semibold">File</th>
                 <th className="py-4 px-6 text-left font-semibold">Title</th>
                 <th className="py-4 px-6 text-left font-semibold">Subject</th>
@@ -339,7 +340,7 @@ const Material = () => {
             </thead>
             <tbody>
               {materials.map((material) => (
-                <tr key={material._id} className="border-b hover:bg-blue-50">
+                <tr key={material._id} className="border-b hover:bg-primary-50">
                   <td className="py-4 px-6">
                     <CustomButton
                       variant="primary"
@@ -380,13 +381,14 @@ const Material = () => {
               ))}
             </tbody>
           </table>
+          </div>
         )}
       </div>
 
       {/* Add/Edit Material Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-lg p-6 max-w-2xl w-full">
+          <div className="bg-dark-800 rounded-lg p-6 max-w-2xl w-full border border-dark-700">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-semibold">
                 {editingMaterial ? "Edit Material" : "Add New Material"}
@@ -404,7 +406,7 @@ const Material = () => {
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-slate-200 mb-1">
                   Title
                 </label>
                 <input
@@ -412,21 +414,21 @@ const Material = () => {
                   name="title"
                   value={formData.title}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 border-2 border-dark-600 rounded-md bg-dark-700 text-slate-200 focus:outline-none focus:ring-2 focus:ring-primary-500"
                   required
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-slate-200 mb-1">
                     Subject
                   </label>
                   <select
                     name="subject"
                     value={formData.subject}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 border-2 border-dark-600 rounded-md bg-dark-700 text-slate-200 focus:outline-none focus:ring-2 focus:ring-primary-500"
                     required
                   >
                     <option value="">Select Subject</option>
@@ -439,14 +441,14 @@ const Material = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-slate-200 mb-1">
                     Branch
                   </label>
                   <select
                     name="branch"
                     value={formData.branch}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 border-2 border-dark-600 rounded-md bg-dark-700 text-slate-200 focus:outline-none focus:ring-2 focus:ring-primary-500"
                     required
                   >
                     <option value="">Select Branch</option>
@@ -459,14 +461,14 @@ const Material = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-slate-200 mb-1">
                     Semester
                   </label>
                   <select
                     name="semester"
                     value={formData.semester}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 border-2 border-dark-600 rounded-md bg-dark-700 text-slate-200 focus:outline-none focus:ring-2 focus:ring-primary-500"
                     required
                   >
                     <option value="">Select Semester</option>
@@ -479,14 +481,14 @@ const Material = () => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-slate-200 mb-1">
                     Type
                   </label>
                   <select
                     name="type"
                     value={formData.type}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 border-2 border-dark-600 rounded-md bg-dark-700 text-slate-200 focus:outline-none focus:ring-2 focus:ring-primary-500"
                     required
                   >
                     <option value="notes">Notes</option>
@@ -498,7 +500,7 @@ const Material = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-slate-200 mb-1">
                   Material File
                 </label>
                 <div className="flex items-center space-x-4">

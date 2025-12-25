@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import Navbar from "../../components/Navbar";
 import { toast, Toaster } from "react-hot-toast";
+import { MdBook, MdAssignment, MdEventNote, MdGrade } from "react-icons/md";
 import Notice from "../Notice";
 import { useDispatch } from "react-redux";
 import { setUserData } from "../../redux/actions";
@@ -10,7 +10,14 @@ import Material from "./Material";
 import Profile from "./Profile";
 import Exam from "../Exam";
 import ViewMarks from "./ViewMarks";
+import Alumni from "./Alumni";
+import Societies from "./Societies";
+import LostAndFound from "./LostAndFound";
 import { useNavigate, useLocation } from "react-router-dom";
+import Sidebar from "../../components/Sidebar";
+import TopBar from "../../components/TopBar";
+import StatCard from "../../components/StatCard";
+import AIAssistant from "../../components/AIAssistant";
 
 const MENU_ITEMS = [
   { id: "home", label: "Home", component: null },
@@ -19,6 +26,9 @@ const MENU_ITEMS = [
   { id: "notice", label: "Notice", component: Notice },
   { id: "exam", label: "Exam", component: Exam },
   { id: "marks", label: "Marks", component: ViewMarks },
+  { id: "alumni", label: "Alumni", component: Alumni },
+  { id: "societies", label: "Societies", component: Societies },
+  { id: "lostandfound", label: "Lost & Found", component: LostAndFound },
 ];
 
 const Home = () => {
@@ -60,35 +70,57 @@ const Home = () => {
     fetchUserDetails();
   }, [dispatch, userToken]);
 
-  const getMenuItemClass = (menuId) => {
-    const isSelected = selectedMenu.toLowerCase() === menuId.toLowerCase();
-    return `
-      text-center px-6 py-3 cursor-pointer
-      font-medium text-sm w-full
-      rounded-md
-      transition-all duration-300 ease-in-out
-      ${
-        isSelected
-          ? "bg-gradient-to-r from-blue-400 to-blue-600 text-white shadow-lg transform -translate-y-1"
-          : "bg-blue-50 text-blue-700 hover:bg-blue-100"
-      }
-    `;
-  };
-
   const renderContent = () => {
     if (isLoading) {
       return (
-        <div className="flex justify-center items-center h-64">Loading...</div>
+        <div className="flex justify-center items-center h-96">
+          <div className="text-gray-400">Loading...</div>
+        </div>
       );
     }
 
     if (selectedMenu === "home" && profileData) {
-      return <Profile profileData={profileData} />;
+      return (
+        <>
+          {/* Stats Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <StatCard
+              title="Enrolled Courses"
+              value="8"
+              change="+2%"
+              icon={<MdBook className="text-2xl" />}
+              color="blue"
+            />
+            <StatCard
+              title="Assignments"
+              value="15"
+              change="+5%"
+              icon={<MdAssignment className="text-2xl" />}
+              color="green"
+            />
+            <StatCard
+              title="Upcoming Exams"
+              value="3"
+              change="+1%"
+              icon={<MdEventNote className="text-2xl" />}
+              color="purple"
+            />
+            <StatCard
+              title="Average Grade"
+              value="8.5"
+              change="+0.5%"
+              icon={<MdGrade className="text-2xl" />}
+              color="orange"
+            />
+          </div>
+
+          {/* Profile Content */}
+          <Profile profileData={profileData} />
+        </>
+      );
     }
 
-    const MenuItem = MENU_ITEMS.find(
-      (item) => item.label.toLowerCase() === selectedMenu.toLowerCase()
-    )?.component;
+    const MenuItem = MENU_ITEMS.find((item) => item.id === selectedMenu)?.component;
 
     return MenuItem && <MenuItem />;
   };
@@ -98,7 +130,7 @@ const Home = () => {
     const pathMenuId = urlParams.get("page") || "home";
     const validMenu = MENU_ITEMS.find((item) => item.id === pathMenuId);
     setSelectedMenu(validMenu ? validMenu.id : "home");
-  }, [location.pathname]);
+  }, [location.search]);
 
   const handleMenuClick = (menuId) => {
     setSelectedMenu(menuId);
@@ -106,25 +138,28 @@ const Home = () => {
   };
 
   return (
-    <>
-      <Navbar />
-      <div className="max-w-7xl mx-auto">
-        <ul className="flex justify-evenly items-center gap-10 w-full mx-auto my-8">
-          {MENU_ITEMS.map((item) => (
-            <li
-              key={item.id}
-              className={getMenuItemClass(item.id)}
-              onClick={() => handleMenuClick(item.id)}
-            >
-              {item.label}
-            </li>
-          ))}
-        </ul>
-
-        {renderContent()}
+    <div className="flex min-h-screen bg-dark-900">
+      <Sidebar
+        menuItems={MENU_ITEMS}
+        selectedMenu={selectedMenu}
+        onMenuSelect={handleMenuClick}
+        userType="Student"
+      />
+      
+      <div className="flex-1 ml-64">
+        <TopBar 
+          title="Welcome Student" 
+          subtitle="Access your academic information"
+        />
+        
+        <div className="p-8">
+          {renderContent()}
+        </div>
       </div>
+      
       <Toaster position="bottom-center" />
-    </>
+      <AIAssistant />
+    </div>
   );
 };
 

@@ -195,10 +195,11 @@ const Exam = () => {
       </div>
 
       {!dataLoading ? (
-        <div className="mt-8 w-full">
-          <table className="text-sm min-w-full bg-white">
+        <div className="mt-8 w-full overflow-x-auto">
+          <div className="bg-dark-800 rounded-2xl shadow-md overflow-hidden border border-dark-700">
+          <table className="text-sm min-w-full">
             <thead>
-              <tr className="bg-blue-500 text-white">
+              <tr className="bg-primary-500 text-white">
                 <th className="py-4 px-6 text-left font-semibold">Exam Name</th>
                 <th className="py-4 px-6 text-left font-semibold">Date</th>
                 <th className="py-4 px-6 text-left font-semibold">Semester</th>
@@ -216,7 +217,7 @@ const Exam = () => {
             <tbody>
               {exams && exams.length > 0 ? (
                 exams.map((item, index) => (
-                  <tr key={index} className="border-b hover:bg-blue-50">
+                  <tr key={index} className="border-b border-dark-700 hover:bg-dark-700 text-slate-200">
                     <td className="py-4 px-6">{item.name}</td>
                     <td className="py-4 px-6">
                       {new Date(item.date).toLocaleDateString()}
@@ -248,13 +249,14 @@ const Exam = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="5x" className="text-center text-base pt-10">
+                  <td colSpan="6" className="text-center text-base pt-10 text-slate-400">
                     No Exams found.
                   </td>
                 </tr>
               )}
             </tbody>
           </table>
+          </div>
         </div>
       ) : (
         <Loading />
@@ -263,9 +265,9 @@ const Exam = () => {
       {/* Add/Edit Exam Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-lg p-6 max-w-2xl w-full">
+          <div className="bg-dark-800 rounded-lg p-6 max-w-2xl w-full border border-dark-700">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-xl font-semibold">
+              <h2 className="text-xl font-semibold text-slate-100">
                 {isEditing ? "Edit Exam" : "Add New Exam"}
               </h2>
               <CustomButton onClick={resetForm} variant="secondary">
@@ -275,33 +277,33 @@ const Exam = () => {
 
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-slate-200 mb-1">
                   Exam Name
                 </label>
                 <input
                   type="text"
                   value={data.name}
                   onChange={(e) => setData({ ...data, name: e.target.value })}
-                  className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 border-2 border-dark-600 rounded-md bg-dark-700 text-slate-200 focus:outline-none focus:ring-2 focus:ring-primary-500"
                   required
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-slate-200 mb-1">
                     Date
                   </label>
                   <input
                     type="date"
                     value={data.date}
                     onChange={(e) => setData({ ...data, date: e.target.value })}
-                    className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 border-2 border-dark-600 rounded-md bg-dark-700 text-slate-200 focus:outline-none focus:ring-2 focus:ring-primary-500"
                     required
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-slate-200 mb-1">
                     Semester
                   </label>
                   <select
@@ -310,7 +312,7 @@ const Exam = () => {
                     onChange={(e) =>
                       setData({ ...data, semester: e.target.value })
                     }
-                    className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 border-2 border-dark-600 rounded-md bg-dark-700 text-slate-200 focus:outline-none focus:ring-2 focus:ring-primary-500"
                     required
                   >
                     <option value="">Select Semester</option>
@@ -324,7 +326,7 @@ const Exam = () => {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-slate-200 mb-1">
                     Exam Type
                   </label>
                   <select
@@ -332,7 +334,7 @@ const Exam = () => {
                     onChange={(e) =>
                       setData({ ...data, examType: e.target.value })
                     }
-                    className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 border-2 border-dark-600 rounded-md bg-dark-700 text-slate-200 focus:outline-none focus:ring-2 focus:ring-primary-500"
                     required
                   >
                     <option value="mid">Mid Term</option>
@@ -340,7 +342,7 @@ const Exam = () => {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-medium text-slate-200 mb-1">
                     Total Marks
                   </label>
                   <input
@@ -349,17 +351,17 @@ const Exam = () => {
                     onChange={(e) =>
                       setData({ ...data, totalMarks: e.target.value })
                     }
-                    className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-4 py-2 border-2 border-dark-600 rounded-md bg-dark-700 text-slate-200 focus:outline-none focus:ring-2 focus:ring-primary-500"
                     required
                   />
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-slate-200 mb-1">
                   Timetable File
                 </label>
                 <div className="flex items-center space-x-4">
-                  <label className="flex-1 px-4 py-2 border rounded-md cursor-pointer hover:bg-gray-50">
+                  <label className="flex-1 px-4 py-2 border-2 border-dark-600 rounded-md bg-dark-700 text-slate-200 cursor-pointer hover:bg-dark-600">
                     <span className="flex items-center justify-center">
                       <FiUpload className="mr-2" />
                       {file ? file.name : "Choose File"}

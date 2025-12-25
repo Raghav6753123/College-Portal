@@ -2,7 +2,11 @@ import axios from "axios";
 import { baseApiURL } from "../baseUrl";
 const axiosWrapper = axios.create({
   baseURL: baseApiURL(),
+  withCredentials: true,
 });
+
+// Ensure credentials are always included (cookies)
+axiosWrapper.defaults.withCredentials = true;
 
 axiosWrapper.interceptors.response.use(
   (response) => response,
@@ -13,7 +17,7 @@ axiosWrapper.interceptors.response.use(
       error.response?.data?.data === null
     ) {
       localStorage.clear();
-      window.location.href = "/";
+      window.location.href = "/login";
     }
     return Promise.reject(error);
   }
