@@ -10,7 +10,6 @@ const { Server } = require("socket.io");
 const jwt = require("jsonwebtoken");
 
 const { getOrCreateConversation, createMessage } = require("./controllers/chat.controller");
-connectToMongo();
 const port = process.env.PORT || 4000;
 var cors = require("cors");
 
@@ -189,6 +188,13 @@ io.on("connection", async (socket) => {
   });
 });
 
-server.listen(port, () => {
-  console.log(`Server Listening On http://localhost:${port}`);
-});
+connectToMongo()
+  .then(() => {
+    server.listen(port, () => {
+      console.log(`Server Listening On http://localhost:${port}`);
+    });
+  })
+  .catch((err) => {
+    console.error("Fatal: MongoDB connection failed. Server not started.", err?.message || err);
+    process.exit(1);
+  });
