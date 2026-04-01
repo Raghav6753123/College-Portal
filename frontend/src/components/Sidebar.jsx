@@ -1,12 +1,11 @@
 import React from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { 
   RxDashboard, 
   RxPerson, 
   RxReader, 
   RxFileText, 
   RxBarChart,
-  RxGear,
   RxExit 
 } from "react-icons/rx";
 import { 

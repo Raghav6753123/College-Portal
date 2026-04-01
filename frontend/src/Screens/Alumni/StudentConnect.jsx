@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import { io } from "socket.io-client";
 import axiosWrapper from "../../utils/AxiosWrapper";
@@ -116,7 +116,7 @@ const StudentConnect = () => {
   const [selectedStudent, setSelectedStudent] = useState(null);
   const token = localStorage.getItem("userToken");
 
-  const loadConversations = async () => {
+  const loadConversations = useCallback(async () => {
     try {
       const resp = await axiosWrapper.get("/alumni/chat/conversations", {
         headers: { Authorization: `Bearer ${token}` },
@@ -125,11 +125,11 @@ const StudentConnect = () => {
     } catch (e) {
       toast.error(e.response?.data?.message || "Failed to load conversations");
     }
-  };
+  }, [token]);
 
   useEffect(() => {
     loadConversations();
-  }, []);
+  }, [loadConversations]);
 
   return (
     <div>

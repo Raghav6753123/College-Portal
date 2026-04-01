@@ -8,15 +8,13 @@ import {
   FaCalendarAlt,
   FaChartLine,
   FaUsers,
-  FaBell,
-  FaFileAlt,
   FaRocket,
   FaShieldAlt,
   FaMobile,
   FaArrowRight,
   FaCheckCircle
 } from "react-icons/fa";
-import { MdSchool, MdDashboard } from "react-icons/md";
+import { MdSchool } from "react-icons/md";
 import LetterGlitch from "../components/LetterGlitch";
 import CardSwap, { Card } from "../components/CardSwap";
 
@@ -363,25 +361,25 @@ const LandingPage = () => {
             <div>
               <h4 className="font-semibold mb-4 text-white">Product</h4>
               <ul className="space-y-2 text-gray-400 text-sm">
-                <li><a href="#" className="hover:text-primary-400 transition-colors">Features</a></li>
-                <li><a href="#" className="hover:text-primary-400 transition-colors">Pricing</a></li>
-                <li><a href="#" className="hover:text-primary-400 transition-colors">Documentation</a></li>
+                <li><a href="/login" className="hover:text-primary-400 transition-colors">Features</a></li>
+                <li><a href="/login" className="hover:text-primary-400 transition-colors">Pricing</a></li>
+                <li><a href="/login" className="hover:text-primary-400 transition-colors">Documentation</a></li>
               </ul>
             </div>
             <div>
               <h4 className="font-semibold mb-4 text-white">Company</h4>
               <ul className="space-y-2 text-gray-400 text-sm">
-                <li><a href="#" className="hover:text-primary-400 transition-colors">About Us</a></li>
-                <li><a href="#" className="hover:text-primary-400 transition-colors">Careers</a></li>
-                <li><a href="#" className="hover:text-primary-400 transition-colors">Contact</a></li>
+                <li><a href="/login" className="hover:text-primary-400 transition-colors">About Us</a></li>
+                <li><a href="/login" className="hover:text-primary-400 transition-colors">Careers</a></li>
+                <li><a href="/login" className="hover:text-primary-400 transition-colors">Contact</a></li>
               </ul>
             </div>
             <div>
               <h4 className="font-semibold mb-4 text-white">Legal</h4>
               <ul className="space-y-2 text-gray-400 text-sm">
-                <li><a href="#" className="hover:text-primary-400 transition-colors">Privacy Policy</a></li>
-                <li><a href="#" className="hover:text-primary-400 transition-colors">Terms of Service</a></li>
-                <li><a href="#" className="hover:text-primary-400 transition-colors">Security</a></li>
+                <li><a href="/login" className="hover:text-primary-400 transition-colors">Privacy Policy</a></li>
+                <li><a href="/login" className="hover:text-primary-400 transition-colors">Terms of Service</a></li>
+                <li><a href="/login" className="hover:text-primary-400 transition-colors">Security</a></li>
               </ul>
             </div>
           </div>

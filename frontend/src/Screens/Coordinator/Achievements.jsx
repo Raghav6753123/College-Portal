@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import Heading from "../../components/Heading";
 import DeleteConfirm from "../../components/DeleteConfirm";
@@ -31,7 +31,7 @@ const Achievements = ({ societyId }) => {
 
   const title = useMemo(() => (editing ? "Edit Achievement" : "Add Achievement"), [editing]);
 
-  const load = async () => {
+  const load = useCallback(async () => {
     if (!societyId) return;
     setLoading(true);
     try {
@@ -43,11 +43,11 @@ const Achievements = ({ societyId }) => {
       toast.error(e.response?.data?.message || "Failed to load achievements");
     }
     setLoading(false);
-  };
+  }, [societyId, token]);
 
   useEffect(() => {
     load();
-  }, [societyId]);
+  }, [load]);
 
   const startCreate = () => {
     setEditing(null);

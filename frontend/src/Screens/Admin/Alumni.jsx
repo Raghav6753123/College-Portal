@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import Heading from "../../components/Heading";
 import axiosWrapper from "../../utils/AxiosWrapper";
@@ -23,7 +23,7 @@ const Alumni = () => {
   });
   const token = localStorage.getItem("userToken");
 
-  const loadAlumni = async () => {
+  const loadAlumni = useCallback(async () => {
     setLoading(true);
     try {
       const resp = await axiosWrapper.get("/admin/alumni", {
@@ -34,11 +34,11 @@ const Alumni = () => {
       toast.error(e.response?.data?.message || "Failed to load alumni");
     }
     setLoading(false);
-  };
+  }, [token]);
 
   useEffect(() => {
     loadAlumni();
-  }, []);
+  }, [loadAlumni]);
 
   const submit = async (e) => {
     e.preventDefault();

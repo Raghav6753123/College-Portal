@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import axiosWrapper from "../utils/AxiosWrapper";
-import CustomButton from "../components/CustomButton";
 
 const UpdatePassword = () => {
   const navigate = useNavigate();

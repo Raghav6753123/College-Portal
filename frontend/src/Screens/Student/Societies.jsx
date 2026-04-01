@@ -635,7 +635,7 @@ const formatWhen = (iso) => {
 };
 
 const Societies = () => {
-  const userData = useSelector((state) => state?.userData) || {};
+  const userData = useSelector((state) => state?.userData);
   const token = localStorage.getItem("userToken");
 
   const [emailOverride, setEmailOverride] = useState("");

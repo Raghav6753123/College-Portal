@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import Heading from "../../components/Heading";
 import DeleteConfirm from "../../components/DeleteConfirm";
@@ -33,7 +33,7 @@ const Events = ({ societyId }) => {
 
   const title = useMemo(() => (editing ? "Edit Event" : "Create Event"), [editing]);
 
-  const load = async () => {
+  const load = useCallback(async () => {
     if (!societyId) return;
     setLoading(true);
     try {
@@ -45,11 +45,11 @@ const Events = ({ societyId }) => {
       toast.error(e.response?.data?.message || "Failed to load events");
     }
     setLoading(false);
-  };
+  }, [societyId, token]);
 
   useEffect(() => {
     load();
-  }, [societyId]);
+  }, [load]);
 
   const startCreate = () => {
     setEditing(null);
