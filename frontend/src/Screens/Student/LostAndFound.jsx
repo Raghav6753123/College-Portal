@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useCallback, useState, useEffect, useRef } from "react";
 import { toast } from "react-hot-toast";
 import {
     FaSearch,
@@ -6,8 +6,6 @@ import {
     FaMapMarkerAlt,
     FaCalendarAlt,
     FaUser,
-    FaPhone,
-    FaEnvelope,
     FaTimes,
     FaCheckCircle,
     FaExclamationCircle,
@@ -57,21 +55,13 @@ const LostAndFound = () => {
         additionalDetails: ""
     });
 
-    useEffect(() => {
-        fetchItems();
-    }, []);
-
-    useEffect(() => {
-        filterItems();
-    }, [items, searchQuery, filterCategory]);
-
-    const fetchItems = async () => { 
+    const fetchItems = useCallback(async () => { 
         const response = await axiosWrapper.get('/student/items');
         console.log("Fetched items:", response.data.data);
         setItems(response.data.data);
-    };
+    }, []);
 
-    const filterItems = () => {
+    const filterItems = useCallback(() => {
         let filtered = items;
 
         if (filterCategory !== "all") {
@@ -90,7 +80,15 @@ const LostAndFound = () => {
         }
 
         setFilteredItems(filtered);
-    };
+    }, [items, searchQuery, filterCategory]);
+
+    useEffect(() => {
+        fetchItems();
+    }, [fetchItems]);
+
+    useEffect(() => {
+        filterItems();
+    }, [filterItems]);
 
     const handleReportSubmit = async (e) => {
         e.preventDefault();

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { toast, Toaster } from "react-hot-toast";
 import { MdBook, MdAssignment, MdEventNote, MdGrade } from "react-icons/md";
 import Notice from "../Notice";
@@ -41,7 +41,7 @@ const Home = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const fetchUserDetails = async () => {
+  const fetchUserDetails = useCallback(async () => {
     setIsLoading(true);
     try {
       toast.loading("Loading user details...");
@@ -65,11 +65,11 @@ const Home = () => {
       setIsLoading(false);
       toast.dismiss();
     }
-  };
+  }, [dispatch, userToken]);
 
   useEffect(() => {
     fetchUserDetails();
-  }, [dispatch, userToken]);
+  }, [fetchUserDetails]);
 
   const renderContent = () => {
     if (isLoading) {

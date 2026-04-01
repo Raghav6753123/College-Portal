@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "react-hot-toast";
 import {
   ArrowRight,
@@ -411,11 +411,7 @@ const Alumni = () => {
     setSelectedAlumni(null);
   };
 
-  useEffect(() => {
-    fetchAlumni();
-  }, []);
-
-  const fetchAlumni = async () => {
+  const fetchAlumni = useCallback(async () => {
     setLoading(true);
     try {
       const response = await axiosWrapper.get("/student/alumni/list", {
@@ -427,7 +423,11 @@ const Alumni = () => {
       toast.error(error.response?.data?.message || 'Failed to load alumni data');
     }
     setLoading(false);
-  };
+  }, [token]);
+
+  useEffect(() => {
+    fetchAlumni();
+  }, [fetchAlumni]);
 
   const filteredAlumni = alumni.filter(alum => {
     const matchesSearch = `${alum.firstName} ${alum.lastName} ${alum.company}`
