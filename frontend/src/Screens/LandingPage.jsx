@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { 
   FaGraduationCap, 
@@ -22,6 +22,15 @@ import CardSwap, { Card } from "../components/CardSwap";
 
 const LandingPage = () => {
   const navigate = useNavigate();
+  const [windowWidth, setWindowWidth] = useState(
+    typeof window !== "undefined" ? window.innerWidth : 1200
+  );
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const features = [
     {
@@ -109,7 +118,7 @@ const LandingPage = () => {
       </nav>
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-32 px-6 overflow-hidden">
+      <section className="relative pt-24 pb-20 md:pt-32 md:pb-32 px-4 md:px-6 overflow-hidden">
         {/* Matrix-Style Glitch Background - Extended */}
         <div className="absolute inset-0 overflow-hidden" style={{ height: '150%' }}>
           <LetterGlitch 
@@ -123,32 +132,32 @@ const LandingPage = () => {
           <div className="absolute inset-0 bg-gradient-to-b from-dark-900/70 via-dark-900/40 to-dark-900/90"></div>
         </div>
 
-        <div className="relative max-w-7xl mx-auto z-10">
-          <div className="text-center mb-16">
-            <div className="inline-block mb-6">
-              <span className="px-4 py-2 bg-primary-500/20 border border-primary-500/30 rounded-full text-primary-400 text-sm font-semibold backdrop-blur-sm">
+        <div className="relative max-w-7xl mx-auto z-10 mt-10 md:mt-0">
+          <div className="text-center mb-10 md:mb-16">
+            <div className="inline-block mb-4 md:mb-6">
+              <span className="px-3 py-1.5 md:px-4 md:py-2 bg-primary-500/20 border border-primary-500/30 rounded-full text-primary-400 text-xs md:text-sm font-semibold backdrop-blur-sm">
                 🎓 Modern Education Management System
               </span>
             </div>
-            <h1 className="text-6xl md:text-7xl font-extrabold mb-6 leading-tight">
+            <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold mb-4 md:mb-6 leading-tight">
               <span className="gradient-text">Transform Your</span>
               <br />
               <span className="text-white">Educational Institution</span>
             </h1>
-            <p className="text-xl text-gray-400 max-w-3xl mx-auto mb-10 leading-relaxed">
+            <p className="text-lg sm:text-xl text-gray-400 max-w-3xl mx-auto mb-8 md:mb-10 leading-relaxed px-2">
               Streamline operations, enhance collaboration, and empower learning with our comprehensive college management platform. Built for the modern era.
             </p>
-            <div className="flex items-center justify-center gap-4 flex-wrap">
+            <div className="flex items-center justify-center gap-3 sm:gap-4 flex-col sm:flex-row px-4">
               <button
                 onClick={() => navigate("/login")}
-                className="px-8 py-4 bg-gradient-to-r from-primary-500 to-cyan-500 hover:from-primary-600 hover:to-cyan-600 rounded-xl font-semibold text-lg shadow-2xl hover:shadow-primary-500/50 transition-all duration-300 transform hover:scale-105 flex items-center gap-2"
+                className="w-full sm:w-auto px-6 py-3.5 md:px-8 md:py-4 bg-gradient-to-r from-primary-500 to-cyan-500 hover:from-primary-600 hover:to-cyan-600 rounded-xl font-semibold text-base md:text-lg shadow-2xl hover:shadow-primary-500/50 transition-all duration-300 transform hover:scale-105 flex justify-center items-center gap-2"
               >
                 Start Free Trial
                 <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
               </button>
               <button
                 onClick={() => navigate("/login")}
-                className="px-8 py-4 bg-dark-700/50 hover:bg-dark-600/50 backdrop-blur-md border border-dark-600 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105"
+                className="w-full sm:w-auto px-6 py-3.5 md:px-8 md:py-4 bg-dark-700/50 hover:bg-dark-600/50 backdrop-blur-md border border-dark-600 rounded-xl font-semibold text-base md:text-lg transition-all duration-300 transform hover:scale-105"
               >
                 View Demo
               </button>
@@ -156,14 +165,14 @@ const LandingPage = () => {
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-20">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mt-12 md:mt-20">
             {stats.map((stat, index) => (
               <div
                 key={index}
-                className="bg-dark-800/30 backdrop-blur-md border border-primary-500/20 rounded-2xl p-6 text-center hover:border-primary-500/50 transition-all duration-300 hover:scale-105 hover:bg-dark-800/50"
+                className="bg-dark-800/30 backdrop-blur-md border border-primary-500/20 rounded-2xl p-4 md:p-6 text-center hover:border-primary-500/50 transition-all duration-300 hover:scale-105 hover:bg-dark-800/50"
               >
-                <div className="text-4xl font-bold gradient-text mb-2">{stat.number}</div>
-                <div className="text-gray-400 text-sm">{stat.label}</div>
+                <div className="text-2xl md:text-4xl font-bold gradient-text mb-1 md:mb-2">{stat.number}</div>
+                <div className="text-gray-400 text-xs md:text-sm">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -171,15 +180,15 @@ const LandingPage = () => {
       </section>
 
       {/* Features Section */}
-      <section className="relative py-28 px-6 pb-28 bg-dark-800/50 overflow-hidden">
+      <section className="relative py-20 md:py-28 px-4 md:px-6 pb-20 md:pb-28 bg-dark-800/50 overflow-hidden">
         <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-20 items-center">
+          <div className="grid md:grid-cols-2 gap-12 md:gap-20 items-center">
             {/* Left Section - Text Content */}
-            <div className="space-y-6">
-              <h2 className="text-5xl md:text-6xl font-bold">
+            <div className="space-y-4 md:space-y-6">
+              <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold">
                 <span className="gradient-text">Powerful Features</span>
               </h2>
-              <p className="text-xl text-gray-400 leading-relaxed">
+              <p className="text-base sm:text-lg md:text-xl text-gray-400 leading-relaxed">
                 Everything you need to manage your institution efficiently and effectively. Our comprehensive platform brings together all essential tools in one place.
               </p>
               <div className="space-y-4 pt-4">
@@ -213,20 +222,20 @@ const LandingPage = () => {
               </div>
               <button
                 onClick={() => navigate("/login")}
-                className="mt-6 px-8 py-4 bg-gradient-to-r from-primary-500 to-cyan-500 hover:from-primary-600 hover:to-cyan-600 rounded-xl font-semibold text-lg shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center gap-2"
+                className="mt-8 px-6 py-3.5 md:px-8 md:py-4 bg-gradient-to-r from-primary-500 to-cyan-500 hover:from-primary-600 hover:to-cyan-600 rounded-xl font-semibold text-base md:text-lg shadow-xl transition-all duration-300 transform hover:scale-105 flex items-center justify-center sm:justify-start gap-2 w-full sm:w-auto"
               >
                 Explore Features
                 <FaArrowRight />
               </button>
             </div>
 
-            {/* Right Section - Card Swap */}
-            <div className="flex justify-center md:justify-end relative z-10">
+          {/* Right Section - Card Swap */}
+            <div className="flex justify-center relative z-10 w-full mt-10 md:mt-0">
               <CardSwap
-                width={400}
-                height={500}
-                cardDistance={30}
-                verticalDistance={40}
+                width={windowWidth < 768 ? 300 : 400}
+                height={windowWidth < 768 ? 400 : 500}
+                cardDistance={windowWidth < 768 ? 15 : 30}
+                verticalDistance={windowWidth < 768 ? 20 : 40}
                 delay={3500}
                 pauseOnHover={true}
                 skewAmount={0}
@@ -235,13 +244,13 @@ const LandingPage = () => {
                 {features.map((feature, index) => (
                   <Card
                     key={index}
-                    className="bg-dark-800 border border-dark-700 rounded-2xl p-8 hover:border-primary-500/50 transition-all duration-300 shadow-2xl"
+                    className="bg-dark-800 border border-dark-700 rounded-2xl p-6 md:p-8 hover:border-primary-500/50 transition-all duration-300 shadow-2xl"
                   >
-                    <div className={`w-16 h-16 bg-gradient-to-br ${feature.gradient} rounded-xl flex items-center justify-center mb-6`}>
+                    <div className={`w-12 h-12 md:w-16 md:h-16 bg-gradient-to-br ${feature.gradient} rounded-xl flex items-center justify-center mb-4 md:mb-6`}>
                       {feature.icon}
                     </div>
-                    <h3 className="text-2xl font-bold mb-3 text-white">{feature.title}</h3>
-                    <p className="text-gray-400 leading-relaxed">{feature.description}</p>
+                    <h3 className="text-xl md:text-2xl font-bold mb-2 md:mb-3 text-white">{feature.title}</h3>
+                    <p className="text-gray-400 leading-relaxed text-sm md:text-base">{feature.description}</p>
                   </Card>
                 ))}
               </CardSwap>

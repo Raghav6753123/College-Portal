@@ -1,19 +1,27 @@
 import React from "react";
-import { RxMagnifyingGlass, RxBell, RxReload } from "react-icons/rx";
+import { RxMagnifyingGlass, RxBell, RxReload, RxHamburgerMenu } from "react-icons/rx";
 import { MdFilterList, MdFileDownload } from "react-icons/md";
 
-const TopBar = ({ title, subtitle }) => {
+const TopBar = ({ title, subtitle, setSidebarOpen }) => {
   return (
-    <div className="bg-dark-900 border-b border-dark-700 px-8 py-6 sticky top-0 z-40">
+    <div className="bg-dark-900 border-b border-dark-700 px-4 md:px-8 py-4 md:py-6 sticky top-0 z-40">
       <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-white mb-1">{title}</h1>
-          <p className="text-gray-400 text-sm">{subtitle}</p>
+        <div className="flex items-center gap-3">
+          <button 
+            className="md:hidden p-2 bg-dark-800 text-gray-400 hover:text-white rounded-lg border border-dark-700"
+            onClick={() => setSidebarOpen && setSidebarOpen(prev => !prev)}
+          >
+            <RxHamburgerMenu className="text-xl" />
+          </button>
+          <div>
+            <h1 className="text-xl md:text-3xl font-bold text-white mb-1 truncate max-w-[200px] sm:max-w-none">{title}</h1>
+            <p className="text-gray-400 text-xs md:text-sm truncate max-w-[200px] sm:max-w-none">{subtitle}</p>
+          </div>
         </div>
         
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2 md:gap-4">
           {/* Search */}
-          <div className="relative">
+          <div className="relative hidden md:block">
             <input
               type="text"
               placeholder="Search..."
@@ -22,16 +30,20 @@ const TopBar = ({ title, subtitle }) => {
             <RxMagnifyingGlass className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 text-xl" />
           </div>
 
+          <button className="md:hidden p-2.5 bg-dark-800 hover:bg-dark-700 text-gray-400 hover:text-white rounded-xl transition-all border border-dark-700">
+            <RxMagnifyingGlass className="text-xl" />
+          </button>
+
           {/* Action Buttons */}
-          <button className="p-2.5 bg-dark-800 hover:bg-dark-700 text-gray-400 hover:text-white rounded-xl transition-all border border-dark-700">
+          <button className="hidden sm:block p-2.5 bg-dark-800 hover:bg-dark-700 text-gray-400 hover:text-white rounded-xl transition-all border border-dark-700">
             <MdFilterList className="text-xl" />
           </button>
           
-          <button className="p-2.5 bg-dark-800 hover:bg-dark-700 text-gray-400 hover:text-white rounded-xl transition-all border border-dark-700">
+          <button className="hidden sm:block p-2.5 bg-dark-800 hover:bg-dark-700 text-gray-400 hover:text-white rounded-xl transition-all border border-dark-700">
             <MdFileDownload className="text-xl" />
           </button>
           
-          <button className="p-2.5 bg-dark-800 hover:bg-dark-700 text-gray-400 hover:text-white rounded-xl transition-all border border-dark-700">
+          <button className="hidden sm:block p-2.5 bg-dark-800 hover:bg-dark-700 text-gray-400 hover:text-white rounded-xl transition-all border border-dark-700">
             <RxReload className="text-xl" />
           </button>
           

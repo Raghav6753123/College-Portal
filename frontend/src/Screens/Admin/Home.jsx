@@ -36,6 +36,7 @@ const MENU_ITEMS = [
 const Home = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [selectedMenu, setSelectedMenu] = useState("home");
   const [profileData, setProfileData] = useState();
   const [isLoading, setIsLoading] = useState(false);
@@ -148,15 +149,18 @@ const Home = () => {
         selectedMenu={selectedMenu}
         onMenuSelect={handleMenuClick}
         userType="Admin"
+        isOpen={isSidebarOpen}
+        setIsOpen={setIsSidebarOpen}
       />
       
-      <div className="flex-1 ml-64">
+      <div className="flex-1 md:ml-64 w-full">
         <TopBar 
           title="Welcome Admin" 
           subtitle="Here's what's happening with your platform today."
+          setSidebarOpen={setIsSidebarOpen}
         />
         
-        <div className="p-8">
+        <div className="p-4 md:p-8 overflow-x-hidden">
           {renderContent()}
         </div>
       </div>

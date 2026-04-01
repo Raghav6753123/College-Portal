@@ -33,6 +33,7 @@ const MENU_ITEMS = [
 
 const Home = () => {
   const [selectedMenu, setSelectedMenu] = useState("home");
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [profileData, setProfileData] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
@@ -144,15 +145,18 @@ const Home = () => {
         selectedMenu={selectedMenu}
         onMenuSelect={handleMenuClick}
         userType="Student"
+        isOpen={isSidebarOpen}
+        setIsOpen={setIsSidebarOpen}
       />
       
-      <div className="flex-1 ml-64">
+      <div className="flex-1 md:ml-64 w-full">
         <TopBar 
           title="Welcome Student" 
           subtitle="Access your academic information"
+          setSidebarOpen={setIsSidebarOpen}
         />
         
-        <div className="p-8">
+        <div className="p-4 md:p-8 overflow-x-hidden">
           {renderContent()}
         </div>
       </div>

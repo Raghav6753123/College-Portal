@@ -15,6 +15,7 @@ const MENU_ITEMS = [
 
 const Home = () => {
   const [selectedMenu, setSelectedMenu] = useState("events");
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [profileData, setProfileData] = useState(null);
   const [society, setSociety] = useState(null);
   const userToken = localStorage.getItem("userToken");
@@ -59,15 +60,18 @@ const Home = () => {
         selectedMenu={selectedMenu}
         onMenuSelect={setSelectedMenu}
         userType="Coordinator"
+        isOpen={isSidebarOpen}
+        setIsOpen={setIsSidebarOpen}
       />
 
-      <div className="flex-1 ml-64">
+      <div className="flex-1 md:ml-64 w-full">
         <TopBar
           title={`Welcome${profileData?.firstName ? `, ${profileData.firstName}` : ""}`}
           subtitle={society?.name ? `Managing: ${society.name}` : "No society assigned"}
+          setSidebarOpen={setIsSidebarOpen}
         />
 
-        <div className="p-8">
+        <div className="p-4 md:p-8 overflow-x-hidden">
           {!society ? (
             <div className="bg-dark-800 border border-dark-700 rounded-2xl p-6 text-slate-300">
               You are not assigned to any society. Please contact admin.
