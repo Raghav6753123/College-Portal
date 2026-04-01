@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { MessageCircle, X, Send, Minimize2, Bot } from 'lucide-react';
+import axiosWrapper from "../utils/AxiosWrapper";
 
 const AIAssistant = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,7 +25,7 @@ const AIAssistant = () => {
     scrollToBottom();
   }, [messages]);
 
-  const handleSendMessage = (e) => {
+  const handleSendMessage = async (e) => {
     e.preventDefault();
     if (!inputMessage.trim()) return;
 
@@ -35,31 +36,40 @@ const AIAssistant = () => {
       timestamp: new Date()
     };
 
-    setMessages([...messages, newMessage]);
+    const newMessages = [...messages, newMessage];
+    setMessages(newMessages);
     setInputMessage('');
     setIsTyping(true);
 
-    // Simulate bot response
-    setTimeout(() => {
-      const botResponses = [
-        "I understand your question. Let me help you with that.",
-        "That's a great question! Here's what I can tell you...",
-        "I'm here to assist you. Based on your query, I suggest...",
-        "Thank you for asking! I can help you with that information.",
-        "Let me process that for you. One moment please...",
-        "I've analyzed your request. Here's my recommendation...",
-      ];
+    try {
+      const history = messages
+        .filter(m => m.id !== 1) // skip the initial hardcoded greeting if you want to save tokens
+        .map(m => ({ text: m.text, sender: m.sender }));
 
-      const botMessage = {
-        id: messages.length + 2,
-        text: botResponses[Math.floor(Math.random() * botResponses.length)],
+      const response = await axiosWrapper.post('/ai/chat', {
+        prompt: newMessage.text,
+        history: history
+      });
+
+      if (response.data.success) {
+        setMessages(prev => [...prev, {
+          id: prev.length + 1,
+          text: response.data.reply,
+          sender: 'bot',
+          timestamp: new Date()
+        }]);
+      }
+    } catch (error) {
+      console.error(error);
+      setMessages(prev => [...prev, {
+        id: prev.length + 1,
+        text: "Sorry, I ran into an error trying to process that request.",
         sender: 'bot',
         timestamp: new Date()
-      };
-
-      setMessages(prev => [...prev, botMessage]);
+      }]);
+    } finally {
       setIsTyping(false);
-    }, 1500);
+    }
   };
 
   const formatTime = (date) => {
